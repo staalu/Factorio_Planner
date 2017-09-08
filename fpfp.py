@@ -1,4 +1,4 @@
-#! D:\python36\python3
+#! D:\python3\python
 # -*- coding: utf-8 -*- 
 
 
