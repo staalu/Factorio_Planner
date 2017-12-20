@@ -298,11 +298,11 @@ def 输入目标产量():
 
 if __name__ == '__main__':
     脚本路径和脚本名称 = os.path.split(os.path.abspath(sys.argv[0]))
-    执行参数 = r"gamedata\0.15.31"
+    执行参数 = r"gamedata\0.16.x"
     try:
         执行参数 = sys.argv[1]
     except:
-    	pass
+        pass
     现在时间 = time.strftime("%y%m%d %H:%M:%S", time.localtime(time.time()))
 
     初始 = 初始化()
