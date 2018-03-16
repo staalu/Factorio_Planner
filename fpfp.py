@@ -258,14 +258,6 @@ class 生产规划:
             目标产品 = 目标产品 + "at" + 初始.生产方案[目标产品]
 
         原始产品配方 = eval(目标产品)
-        #print("\n\n\n\n\n\n++++++++++------\n")
-        #print(dir(原始产品配方))
-        #print(原始产品配方.产品)
-        #print(原始产品配方.产量)
-        #print(原始产品配方.材料字典)
-        #print(原始产品配方.生产设备)
-        #print(原始产品配方.计算每秒量)
-
         目标产品配方 = copy.deepcopy(原始产品配方)
 
         目标产品配方.产量 = 目标产量
@@ -332,14 +324,8 @@ if __name__ == '__main__':
     except:
         pass
     现在时间 = time.strftime("%y%m%d %H:%M:%S", time.localtime(time.time()))
-
     初始 = 初始化()
     期望输入值列表 = []
-
-#    for i in 初始.生产配方列表:
-#        print(i)
-    print(初始.产能加成)
-    print(初始.速度加成)
     
     for 配方 in 初始.生产配方列表:
         locals()[配方[1][0]] = 单位时间配方条目类(配方, 初始.设备速度)
