@@ -1,1 +1,1 @@
-.\fpfp.py .\gamedata\0.17.xP
+.\fpfp.py .\gamedata\0.18.x
