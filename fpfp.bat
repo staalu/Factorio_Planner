@@ -1,1 +1,3 @@
-.\fpfp.py .\gamedata\0.18.x
+.\fpfp.py
+
+pause
