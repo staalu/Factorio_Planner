@@ -95,6 +95,7 @@ class 初始化:
         self.基础原料 = []
         self.配方产能加成 = {}
         self.配方加成后设备速度 = {}
+        self.特殊配方选择 = {}
         类别切换器正则 = re.compile(r"""
                                         ^\[                      #行首第一个字符为'左方括号'
                                         (?!\s*\])                #然后直到下一个右方括号为止 不能全部是空白符
@@ -149,7 +150,7 @@ class 初始化:
                     (配方产品和名称, 配方原料和时间) = 配方内容.split("=")
                     配方产品和名称 = 配方产品和名称.split("@")
                     try:
-                        配方名称 = 配方产品和名称[1]
+                        配方名称 = 配方产品和名称[1].strip()
                         配方产品 = 配方产品和名称[0].split("+")[:-1]
                     except:
                         配方名称 = 配方产品和名称[0].split("×")[0].strip()
@@ -210,15 +211,15 @@ class 量化计算:
         self.特殊产品计数 = {}
 
         self.石化量化目标 = {"重油":十进制(0), "轻油":十进制(0), "石油气":十进制(0),}
-        self.铀处理目标 = {}
+        self.铀处理目标 = { "铀235":十进制(0), "铀238":十进制(0) }
 
     def 量化计算(self, 目标产品, 产量):
-        #print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
-        #print("目标产物 " + 目标产品)
-        #print("设备计数 " + str(self.各配方设备计数))
-        #print("产物计数 " + str(self.中间产物计数))
-        #print("原料计数 " + str(self.基础原料计数))
-        #print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+        print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+        print("目标产物 " + 目标产品)
+        print("设备计数 " + str(self.各配方设备计数))
+        print("产物计数 " + str(self.中间产物计数))
+        print("原料计数 " + str(self.基础原料计数))
+        print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
         #if 目标产品 = 铁板 : 
         #pdb.set_trace()
         if 目标产品 in 初始.基础原料:
@@ -249,26 +250,74 @@ class 量化计算:
 
     def 特殊产品处理(self):
         石化开关 = 0
-        铀处理产品 = ["铀238", "铀235"]
         铀处理开关 = 0 
         for key in self.特殊产品计数.keys():
             if key in self.石化量化目标:
                 石化开关 = 1
                 self.石化量化目标[key] = self.石化量化目标[key] + self.特殊产品计数[key]
+            elif key in self.铀处理目标:
+                铀处理开关 = 1
+                self.铀处理目标[key] = self.铀处理目标[key] + self.特殊产品计数[key]
+
         if 石化开关:
             self.石化量化计算()
 
 
 
     def 石化量化计算(self):
-        多余重油 = 十进制(0)
-        多余轻油 = 十进制(0)
-        多余石油气 = 十进制(0)
+
+        #初始.特殊配方选择["石油化工路径"]
+        石化配方 = 初始.配方[初始.特殊配方选择["石油化工路径"]]
+        重油裂解配方 = 初始.配方["重油裂解"]
+        轻油裂解配方 = 初始.配方["轻油裂解"]
+        石化目标 = self.石化量化目标
+
+        print(石化目标)
 
 
 
-        重油炼油厂数量 = self.石化量化目标["重油"] / 初始.配方["高阶原油处理"]["重油"]
-        初始.配方["高阶原油处理"]["轻油"] * 
+
+#        石化配方组 = {}
+        #pdb.set_trace()
+#        石化配方组["重油"] = 石化配方
+        
+#        重油裂解数量 = 石化配方["重油"] / 重油裂解配方["重油"]
+#        重油裂解 = {}
+#        for 某油,数量 in 重油裂解配方.items():
+#            重油裂解[某油] = 数量 * 重油裂解数量
+
+#        print(重油裂解)
+#        print(石化配方)
+
+#        石化配方组["轻油"] = {}
+#        for 某油,数量 in 石化配方:
+
+
+
+
+
+
+
+
+
+
+
+
+        #重油裂解配方
+
+
+
+
+        #石化配方组["轻油"] = 1
+        #pdb.set_trace()
+
+
+
+
+
+
+        #重油炼油厂数量 = self.石化量化目标["重油"] / 初始.配方["高阶原油处理"]["重油"]
+        #初始.配方["高阶原油处理"]["轻油"] * 
 
 
 
@@ -381,7 +430,7 @@ if __name__ == '__main__':
     #print(初始.配方加成后设备速度)
     #print(初始.配方对应设备)
     ##print("--------------------------------------------------------------------")
-    #for k,v in 初始.配方对应设备.items():
+    #for k,v in 初始.配方.items():
     #    print(k)
     #    print(v)
     #    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++")
