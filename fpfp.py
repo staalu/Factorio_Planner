@@ -214,37 +214,37 @@ class 量化计算:
         self.铀处理目标 = { "铀235":十进制(0), "铀238":十进制(0) }
 
     def 量化计算(self, 目标产品, 产量):
-        print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
-        print("目标产物 " + 目标产品)
-        print("设备计数 " + str(self.各配方设备计数))
-        print("产物计数 " + str(self.中间产物计数))
-        print("原料计数 " + str(self.基础原料计数))
-        print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+        #print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
+        #print("目标产物 " + 目标产品)
+        #print("设备计数 " + str(self.各配方设备计数))
+        #print("产物计数 " + str(self.中间产物计数))
+        #print("原料计数 " + str(self.基础原料计数))
+        #print("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT")
         #if 目标产品 = 铁板 : 
         #pdb.set_trace()
         if 目标产品 in 初始.基础原料:
-            try:
+            if 目标产品 in self.基础原料计数:
                 self.基础原料计数[目标产品] = self.基础原料计数[目标产品] + 产量
-            except:
+            else:
                 self.基础原料计数[目标产品] = 产量
         elif not (目标产品 in 初始.配方):
-            try:
+            if 目标产品 in self.特殊产品计数:
                 self.特殊产品计数[目标产品] = self.特殊产品计数[目标产品] + 产量
-            except:
+            else:
                 self.特殊产品计数[目标产品] = 产量
         else:
-            try:
+            if 目标产品 in self.各配方设备计数:
                 self.各配方设备计数[目标产品] = self.各配方设备计数[目标产品] + ( 产量 / 初始.配方[目标产品][目标产品] )
-            except:
+            else:
                 self.各配方设备计数[目标产品] = 产量 / 初始.配方[目标产品][目标产品]
-            try:
+            if 目标产品 in self.中间产物计数:
                 self.中间产物计数[目标产品] = self.中间产物计数[目标产品] + 产量
-            except:
+            else:
                 self.中间产物计数[目标产品] = 产量
             for (k,v) in 初始.配方[目标产品].items():
                 if v < 0 :
                     原料 = k
-                    耗量 = abs(v) * self.各配方设备计数[目标产品]
+                    耗量 = abs(v) * ( 产量 / 初始.配方[目标产品][目标产品] )
                     self.量化计算( 原料, 耗量 )
         #pdb.set_trace()
 
